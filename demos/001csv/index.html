@@ -1,0 +1,15 @@
+<script src='../../alasql.min.js'></script>
+<h1>Load CSV into IndexedDB dbabase</h1>
+<p>Number of records loaded into IndexedDB:<span id="res"></span></p>
+<script>
+    alasql('CREATE INDEXEDDB DATABASE IF NOT EXISTS geo;\
+    ATTACH INDEXEDDB DATABASE geo; \
+    USE geo; \
+    DROP TABLE IF EXISTS country; \
+    CREATE TABLE country; \
+    SELECT * INTO country FROM CSV("country.csv");\
+    SELECT VALUE COUNT(*) FROM country',[],function(data){
+    	var res = data.pop();
+    	document.getElementById("res").textContent = res;
+    });
+</script>
