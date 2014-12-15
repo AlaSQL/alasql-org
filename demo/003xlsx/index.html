@@ -2,6 +2,6 @@
 <script src='../../console/xlsx.core.min.js'></script>
 <script>
 	alasql('select * from xlsx("cities.xlsx", {headers:true, sheetid:"Sheet1", range:"A1:B6"})',[],function(data){
-		document.write(JSON.stringify(data));
+ 			document.write(JSON.stringify(data));
 	});
 </script>
