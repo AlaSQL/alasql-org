@@ -1,0 +1,6 @@
+﻿    <script src="alasql.min.js"></script>
+    <script>
+        alasql('SELECT * FROM CSV("cities.csv",{headers:true})',[],function(res){
+             document.write(JSON.stringify(res));
+        });
+    </script>
