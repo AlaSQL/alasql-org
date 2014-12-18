@@ -1,7 +1,7 @@
 <script src="../../console/d3.v3.min.js"></script>
 <script src="../../console/alasql.min.js"></script>
 <script src="../../console/xlsx.core.min.js"></script>
-<h1>Alasql+d3: Olympic Medals By Age</h1>
+<h1>Alasql+d3: Olympic Medals By <span id="axe">Age</span></h1>
 
 <div> <b>Select axe:</b>
  <a href="#" onclick="graph('Age')">Age</a>
@@ -12,6 +12,7 @@
 <script>
 
 function graph(axe) {
+	document.getElementById('axe').textContent = axe;
     alasql('SELECT '+axe+', SUM([Gold Medals]) AS Gold, SUM([Silver Medals]) AS Silver, SUM([Bronze Medals]) AS Bronze FROM XLSX("medals.xlsx",{headers:true}) GROUP BY '+axe+' ORDER BY '+axe,[],function(data){
 //    	console.log(data[0]);
 
