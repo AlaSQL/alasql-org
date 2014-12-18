@@ -11,9 +11,16 @@
 <div id="viz"></div>
 <script>
 
+var medals;
+
+alasql('SELECT * FROM XLSX("medals.xlsx",{headers:true})', [], function(data){
+	medals = data;
+	graph('Age');
+}); 
+
 function graph(axe) {
 	document.getElementById('axe').textContent = axe;
-    alasql('SELECT '+axe+', SUM([Gold Medals]) AS Gold, SUM([Silver Medals]) AS Silver, SUM([Bronze Medals]) AS Bronze FROM XLSX("medals.xlsx",{headers:true}) GROUP BY '+axe+' ORDER BY '+axe,[],function(data){
+    alasql('SELECT '+axe+', SUM([Gold Medals]) AS Gold, SUM([Silver Medals]) AS Silver, SUM([Bronze Medals]) AS Bronze FROM ? GROUP BY '+axe+' ORDER BY '+axe,[medals],function(data){
 //    	console.log(data[0]);
 
 		var viz = d3.select("#viz");
@@ -86,6 +93,5 @@ function graph(axe) {
     });
 }
 
-graph('Age');
 
 </script>
