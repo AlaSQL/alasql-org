@@ -1,0 +1,52 @@
+<head>
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript" src="../../console/alasql.min.js"></script>
+<script type="text/javascript" src="../../console/xlsx.core.min.js"></script>
+
+<script>
+var app = angular.module('App', []);
+function MyCtrl($scope) {
+  $scope.items = [{a:1,b:10},{a:2,b:20}];
+  $scope.doExport = function() {
+/*
+    var res = alasql('SELECT * FROM ?',[$scope.items]);
+    
+    query.removeKeys = [];
+
+
+    var removeKeys = query.removeKeys;
+    if(angular) removeKeys.push('$$hashKey');
+    var jlen = removeKeys.length;
+    if(angular) {
+      for(var i=0,ilen=res.length;i<ilen;i++) {
+        for(var j=0; j<jlen;j++)
+          delete res[i][removeKeys[j]];
+      }    
+    }
+*/
+    alasql('SELECT * INTO XLSX("mydata.xlsx",{headers:false}) FROM ?',[$scope.items]);
+
+  }
+  $scope.addOne = function(){
+    $scope.items.push({a:(Math.random()*10)|0,b:((Math.random()*10)|0)*10});
+  }
+}
+
+</script>
+</head>
+<body ng-app="App" ng-controller="MyCtrl">
+
+<h1>Angular.js+Alasql.js</h1>
+    <label>Name:</label>
+    <input type="text" ng-model="yourName" placeholder="Enter a name here">
+    <hr>
+    <h1>Hello {{yourName}}!</h1>
+    <button ng-click='doExport()'>Export</button>
+    <button ng-click='addOne()'>Add one</button>
+    <ul>
+   <li ng-repeat="item in items">
+     {{item.a}} - {{item.b}}
+   </li> 
+    </ul>
+
+</body>
