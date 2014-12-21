@@ -1,0 +1,6 @@
+<script src="../../console/alasql.min.js"></script>
+<script>
+	alasql('select matrix * from tsv("mydata.tsv")',[],function(data){
+ 			document.write(JSON.stringify(data));
+	});
+</script>
