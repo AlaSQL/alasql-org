@@ -1,0 +1,21 @@
+***Question 1: How to change output?***
+
+A) You can use SELECT output modifiers. There are for of them
+
+* SELECT MATRIX - returns array of arrays
+* SELECT COLUMN - returns only array with data first column 
+* SELECT VALUE - returns only one value
+* SELECT ROW - return array from first row
+
+B) You can try turn on or turn off {headers:true/false} option. If the value is true Alasql read first row as set of column headers 
+
+***Question 2: Can I import data?***
+
+See the example:
+    
+    alasql('SELECT * FROM XLSX("mydata.xlsx",{headers:true}); 
+
+***Question 3: Can I color cells?***
+
+Unfortunately, in current version - no. For import - it does not matter.
+
