@@ -4,45 +4,52 @@
 <script type="text/javascript" src="../../console/xlsx.core.min.js"></script>
 
 <script>
-var app = angular.module('App', []);
+//var app = angular.module('App', []);
+
 function MyCtrl($scope) {
   $scope.items = [{a:1,b:10},{a:2,b:20}];
-  $scope.doExport = function() {
-/*
-    var res = alasql('SELECT * FROM ?',[$scope.items]);
-    
-    query.removeKeys = [];
+  $scope.filename = "mydata.xlsx";
 
+  $scope.doExportDesktop = function() {
+   alasql('SELECT * INTO XLSX("'+$scope.filename+'",{headers:true}) FROM ?',[$scope.items]);
 
-    var removeKeys = query.removeKeys;
-    if(angular) removeKeys.push('$$hashKey');
-    var jlen = removeKeys.length;
-    if(angular) {
-      for(var i=0,ilen=res.length;i<ilen;i++) {
-        for(var j=0; j<jlen;j++)
-          delete res[i][removeKeys[j]];
-      }    
-    }
-*/
-    alasql('SELECT * INTO XLSX("mydata.xlsx",{headers:false}) FROM ?',[$scope.items]);
-
+  }
+  $scope.doImportDesktop = function (event) {
+    alasql('SELECT * FROM FILE(?,{headers:true})',[event],function(data){
+      $scope.items = data;
+      $scope.$apply();
+    });
+  }
+  $scope.doImportServer = function (event) {
+    alasql('SELECT * FROM FILE("'+$scope.filename+'",{headers:true})',[],function(data){
+      $scope.items = data;
+      $scope.$apply();
+    })
   }
   $scope.addOne = function(){
     $scope.items.push({a:(Math.random()*10)|0,b:((Math.random()*10)|0)*10});
+  }
+  $scope.clearAll = function(){
+    $scope.items = [];
+//    $scope.$apply();
   }
 }
 
 </script>
 </head>
-<body ng-app="App" ng-controller="MyCtrl">
+<body ng-app ng-controller="MyCtrl">
 
 <h1>Angular.js+Alasql.js</h1>
     <label>Name:</label>
-    <input type="text" ng-model="yourName" placeholder="Enter a name here">
+    <input type="text" ng-model="filename" placeholder="Enter a filename name here">
     <hr>
-    <h1>Hello {{yourName}}!</h1>
-    <button ng-click='doExport()'>Export</button>
+    <h1>Filename {{filename}}!</h1>
+    <button ng-click='doImportServer()'>Import from Server</button>
+    Import from Desktop:
+    <input type="file" onchange='angular.element(this).scope().doImportDesktop(event)'/>
+    <button ng-click='doExportDesktop()'>Export to Desktop</button>
     <button ng-click='addOne()'>Add one</button>
+    <button ng-click='clearAll()'>Clear all</button>
     <ul>
    <li ng-repeat="item in items">
      {{item.a}} - {{item.b}}
