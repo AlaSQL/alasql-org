@@ -1,0 +1,44 @@
+<style>
+html, body, #map-canvas {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+</style>
+<div id="map-canvas"></div>
+<script src="../../console/alasql.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script>
+    function initialize() {
+	    alasql('SELECT Country, COUNT(*) AS cnt FROM CSV("all_latest_views_1m.csv",{headers:true}) GROUP BY Country; \
+	    	SELECT * FROM CSV("https://cdn.rawgit.com/albertyw/avenews/master/old/data/average-latitude-longitude-countries.csv",{headers:true})', [], function(data){
+	    		
+	   		var country = alasql('SELECT countries.*, views.cnt FROM ? views JOIN ? countries USING Country',data);
+
+	        // Create the map.
+	        var mapOptions = {
+	            zoom : 3,
+	            center : new google.maps.LatLng(40, 0),
+	            mapTypeId : google.maps.MapTypeId.ROADMAP
+	        };
+
+	        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+	        for (i = 0; i < country.length; i++) {
+	            var populationOptions = {
+	                strokeColor : '#000000',
+	                strokeOpacity : 0.8,
+	                strokeWeight : 2,
+	                fillColor : ["red","green","blue","brown"][i%4],
+	                fillOpacity : 0.35,
+	                map : map,
+	                center : new google.maps.LatLng(country[i].Latitude,country[i].Longitude),
+	                radius : Math.sqrt(country[i].cnt) * 100000
+	            };
+	            new google.maps.Circle(populationOptions);
+	        };
+
+	    });
+	};
+	google.maps.event.addDomListener(window, 'load', initialize);
+</script>
