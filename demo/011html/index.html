@@ -1,0 +1,38 @@
+<script src="../../console/alasql.min.js"></script>
+<p>Source table</p>
+<table id="mydata">
+	<thead><tr><th>Country<th>City</thead>
+	<tbody>
+		<tr><td>USA<td>New York
+		<tr><td>France<td>Paris
+		<tr><td>Phillipines<td>Manila
+		<tr><td>Japan<td>Tokyo
+		<tr><td>Egypt<td>Cairo
+		<tr><td>Mexica<td>Mexico
+		<tr><td>USA<td>Washington
+		<tr><td>Georgia<td>Tbilisi
+	</tbody>
+</table>
+<p>Result 1:</p>
+<div id="res1"></div>
+<p>Result 2:</p>
+<div id="res2"></div>
+<p>Result 3:</p>
+<div id="res3"></div>
+<p>Result 4:</p>
+<div id="res4"></div>
+
+<script type="text/javascript">
+	var res1 = alasql('SELECT Country, COUNT(*) AS [Count] FROM HTML("#mydata",{headers:true}) GROUP BY Country');
+	document.getElementById('res1').innerText = JSON.stringify(res1);
+
+	var res2 = alasql('SELECT [0], COUNT(*) AS [Count] FROM HTML("#mydata",{headers:false}) GROUP BY [0]');
+	document.getElementById('res2').innerText = JSON.stringify(res2);
+
+	var res3 = alasql('SELECT ctr, COUNT(*) AS [Count] FROM HTML("#mydata",{headers:@["ctr","cit"]}) GROUP BY ctr');
+	document.getElementById('res3').innerText = JSON.stringify(res3);
+
+	alasql('SELECT Country, COUNT(*) AS [Count] INTO HTML("#res4",{headers:true}) FROM HTML("#mydata",{headers:true}) GROUP BY Country');
+
+</script>
+
