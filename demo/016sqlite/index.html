@@ -1,6 +1,7 @@
 <script src="sql.js"></script>
+<h1>Read SQLite files in browser</h1>
+<div id="res"></div>
 <script>
-
 	function loadBinaryFile(path,success) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", path, true); 
@@ -17,7 +18,7 @@
 
 	loadBinaryFile('./Chinook_Sqlite.sqlite', function(data){
 		var sqldb = new SQL.Database(data);
-		console.log(sqldb);
+		// Sample output
+		document.getElementById("res") = JSON.stringify(sqldb);
 	});
-
 </script>
