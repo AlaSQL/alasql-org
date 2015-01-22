@@ -19,6 +19,6 @@
 	loadBinaryFile('./Chinook_Sqlite.sqlite', function(data){
 		var sqldb = new SQL.Database(data);
 		// Sample output
-		document.getElementById("res") = JSON.stringify(sqldb);
+		document.getElementById("res").textContent = JSON.stringify(sqldb);
 	});
 </script>
