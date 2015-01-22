@@ -17,8 +17,10 @@
 
 
 	loadBinaryFile('./Chinook_Sqlite.sqlite', function(data){
-		var sqldb = new SQL.Database(data);
+		var db = new SQL.Database(data);
+		
+		var res = db.exec("SELECT * FROM Genre");
 		// Sample output
-		document.getElementById("res").textContent = JSON.stringify(sqldb);
+		document.getElementById("res").textContent = JSON.stringify(res);
 	});
 </script>
