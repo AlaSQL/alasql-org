@@ -1,0 +1,10 @@
+<script src="alasql-worker.min.js"></script>
+<script>
+	var arr = [{a:1},{a:2},{a:1}];
+	alasql('CREATE TABLE one (a INT); \
+		INSERT INTO one VALUES(10); \
+		SELECT * INTO one FROM ?; \
+		SELECT * FROM one',[arr], function(data){
+			// Выполняется на "воркере"
+	});
+</script>

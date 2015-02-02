@@ -1,0 +1,23 @@
+<body ng-app ng-controller="MyCtrl">
+    <button ng-click='doImportServer()'>Импорт с сервера</button>
+    <input type="file" onchange='angular.element(this).scope().doImportDesktop(event)'/>
+    <button ng-click='doExportDesktop()'>Экспорт на десктоп</button>
+    <script>
+      function MyCtrl($scope) {
+          $scope.doImportServer = function (event) {
+              alasql('SELECT * FROM "mydata.xlsx"',[],function(data){
+                  $scope.items = data;
+              })
+          };
+          $scope.doImportDesktop = function (event) {
+              alasql('SELECT * FROM FILE(?,{headers:true})',[event],function(data){
+                $scope.items = data;
+              });
+          };
+          $scope.doExportDesktop = function() {
+              alasql('SELECT * INTO "mydata.csv" FROM ?',[$scope.items]);
+          };
+      }
+    </script>
+</body>
+

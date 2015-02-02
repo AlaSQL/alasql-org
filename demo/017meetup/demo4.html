@@ -1,0 +1,12 @@
+<script src="alasql.min.js"></script>
+<script src="sql.js"></script>
+<script>
+	alasql('ATTACH SQLITE DATABASE Chinook("Chinook_Sqlite.sqlite"); \
+	    USE Chinook; \
+		SELECT * FROM Genre WHERE GenreId < ?',[5],function(data){
+			var Genre = data.pop();
+			// Массив Genre содержи список жанров из таблицы Genre
+			// с номерами менее 5
+		});
+	});
+</script>

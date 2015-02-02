@@ -1,0 +1,7 @@
+alasql('SELECT '+axe+', SUM([Gold Medals]) AS Gold, \
+    SUM([Silver Medals]) AS Silver, SUM([Bronze Medals]) AS Bronze \
+    FROM "medals.xlsx" \
+    GROUP BY '+axe+' ORDER BY '+axe,[medals],function(data){
+
+    // data - выборка медали по заданной оси
+});

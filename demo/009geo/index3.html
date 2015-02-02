@@ -10,7 +10,7 @@ html, body, #map-canvas {
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
     function initialize() {
-	    alasql('SELECT Country, COUNT(*) AS cnt FROM CSV("all_latest_views_1m.csv",{headers:true}) GROUP BY Country; \
+	    alasql('SELECT Country, COUNT(*) AS cnt FROM CSV("all_latest_views_3m.csv",{headers:true}) GROUP BY Country; \
 	    	SELECT * FROM CSV("https://cdn.rawgit.com/albertyw/avenews/master/old/data/average-latitude-longitude-countries.csv",{headers:true})', [], function(data){
 	    		
 	   		var country = alasql('SELECT countries.*, views.cnt FROM ? views JOIN ? countries USING Country',data);
