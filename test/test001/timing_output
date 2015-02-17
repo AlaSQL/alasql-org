@@ -1,0 +1,32 @@
+[
+  {
+    "path" : "https:\/\/mail.google.com\/mail\/u\/0",
+    "projects" : [
+      "X. Ambiguous: Communication Inbox"
+    ],
+    "endDate" : "2015-02-11, 1:00 PM",
+    "startDate" : "2015-02-11, 12:00 PM",
+    "application" : "Safari",
+    "duration" : 1528.618035137653
+  },
+  {
+    "path" : "",
+    "projects" : [
+      "Y. Timesuck: Laptop Maintenance [TT-28]"
+    ],
+    "endDate" : "2015-02-11, 1:00 PM",
+    "startDate" : "2015-02-11, 12:00 PM",
+    "application" : "Flash Player (Safari Internet plug-in)",
+    "duration" : 68.77424800395966
+  },
+  {
+    "path" : "\/Volumes\/Storage\/martincleaver\/SoftwareDevelopment\/alasql\/MRJC\/alasql1.sql",
+    "projects" : [
+
+    ],
+    "endDate" : "2015-02-11, 2:00 PM",
+    "startDate" : "2015-02-11, 1:00 PM",
+    "application" : "TextMate",
+    "duration" : 70.63207685947418
+  }
+]
