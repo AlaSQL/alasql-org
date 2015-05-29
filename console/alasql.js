@@ -1,3 +1,4 @@
+/*! AlaSQL v0.1.9 (c) 2014-2015 Andrey Gershun | alasql.org/license */
 /*
 @module alasql
 @version 0.1.8
@@ -125,7 +126,7 @@ var alasql = function alasql(sql, params, cb, scope) {
 	Current version of alasql 
  	@constant {string} 
 */
-alasql.version = "0.1.8";
+alasql.version = "0.1.9";
 
 /**
 	Debug flag
@@ -10650,6 +10651,10 @@ yy.CreateTable.prototype.execute = function (databaseid, params, cb) {
 		this.columns.forEach(function(col) {
 			var dbtypeid = col.dbtypeid;
 			if(!alasql.fn[dbtypeid]) dbtypeid = dbtypeid.toUpperCase();
+
+			// Process SERIAL data type like Postgress
+			if(['SERIAL','SMALLSERIAL','BIGSERIAL'].indexOf(dbtypeid)>-1) col.identity = {value:1,step:1};
+			
 			var newcol = {
 				columnid: col.columnid,
 				dbtypeid: dbtypeid, 

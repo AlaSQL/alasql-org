@@ -1,0 +1,145 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+    <title>AlaSQL code examples</title>
+    <link rel="stylesheet" href="lib/webix/webix.css" type="text/css"> 
+    <script src="lib/webix/webix.js" type="text/javascript"></script>  
+
+    <script type="text/javascript">
+      webix.require.disabled = true;
+      webix.codebase = "lib/codemirror/";
+    </script>
+    <script src="lib/webix/codemirror.js"></script>
+    <script src="lib/codemirror/codemirror.js"></script>
+    <script src="lib/codemirror/javascript.js"></script>
+    <script src="lib/codemirror/sql.js"></script>
+   
+    <script src="../console/alasql.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/codemirror/codemirror.css">
+    <style>
+      .error {color:red;}
+    </style>
+
+    </head>
+    <body>
+        <script type="text/javascript" charset="utf-8">
+
+
+  webix.ready(function(){
+    webix.ui({
+      rows:[
+        { cols:[
+          {rows:[
+            { type:"header", template:"AlaSQL Code Examples" },
+            { id:'tree',view:"tree", gravity:0.4, select:true },
+          ], width:200},
+          { view:"resizer" },
+          { id: 'rw', rows:[
+
+            {
+              container:"areaA",
+              view:"toolbar",
+              cols:[
+                { id:'runquery',view:"button", type:"icon", icon:"flash", label:"Run query" },
+              ]
+            }, 
+            { id:'editor', view:"codemirror-editor", mode:'text/x-sql'}, 
+            { view:"resizer" },
+            { id:'grid', view:"datatable", autoConfig:true}
+
+          ]}
+        ]}
+      ]
+    });
+
+    $$('editor').setValue('Welcome to AlaSQL Code Examples');
+
+    $$('runquery').attachEvent("onItemClick", function(id,event){
+      runQuery(id);
+    });
+
+    $$('tree').load('catalog.json').then(function(){
+      var id = location.href.split('?id=')[1];
+      if(typeof id == 'undefined') id="index.md";
+      $$('tree').select(id);
+    });
+    $$('tree').attachEvent("onAfterSelect", function (id) {
+      var result = webix.ajax().sync().get(id);
+      $$('editor').setValue(result.responseText);
+      runQuery(id);
+    });
+
+    function runQuery(id) {
+          var s = $$('editor').getValue();
+          alasql('DROP DATABASE IF EXISTS test;CREATE DATABASE test;USE test');
+          alasql.options.errorlog = true;
+
+          if(id.toLowerCase().substr(-3) == '.js') {
+            s = '``'+s+'``';
+          } else if(id.toLowerCase().substr(-4) == '.sql') {
+            s = 'SELECT 1;'+s;
+          } else if(id.toLowerCase().substr(-4) == '.txt') {
+            s = 'SELECT 1;';
+          } else if(id.toLowerCase().substr(-3) == '.md') {
+            s = 'SELECT 1;';
+          };
+          alasql(s,{},function(data,err){
+            if(err) {
+              $$('rw').removeView('grid');
+              $$('rw').addView({ 
+                id:'grid', template:err, css:'error'
+              });  
+            } else {
+//          console.log(data);
+              var res = data[data.length-1];
+//              console.log(res);
+
+              if(res.length > 0) {
+                var allcol = {};
+                for(var i=0;i<Math.min(res.length,alasql.options.columnlookup||10);i++) {
+                  for(var key in res[i]) {
+                    allcol[key] = true;
+                  }
+                }
+
+                columns = Object.keys(allcol).map(function(columnid){
+                  return {id:columnid};
+                });     
+              } else {
+                // Cannot recognize columns
+                columns = [];
+              }
+
+              alasql('DROP DATABASE test');
+
+              $$('rw').removeView('grid');
+              $$('rw').addView({ 
+                id:'grid', view:"datatable", columns:columns,data:res
+              });  
+            }
+          });
+    };
+
+//    $$('editor').setValue(samples[1]);
+    $$("editor").focus();
+
+});
+// webix.ui({
+//   rows:[
+//       { view:"template", 
+//         type:"header", template:"My App!" },
+//       { view:"datatable",
+//         editable:true,
+//         autoConfig:true,
+//         data:{
+//           title:"My Fair Lady", year:1964, votes:533848, rating:8.9, rank:5
+//         }
+//       }
+//   ]
+// });
+
+
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,7 @@
+[
+	{"type":"file", "value":"Welcome to AlaSQL!","id":"index.md"},
+	{"type":"folder", "value":"Data Types", "open": true, "id":"types/index.md","data":[
+      {"type":"file","value":"INTEGER", "id":"types/integer.sql"},
+      {"type":"file","value":"SERIAL", "id":"types/serial.sql"}
+    ]}
+]
