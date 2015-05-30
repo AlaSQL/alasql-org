@@ -1,7 +1,75 @@
 [
 	{"type":"file", "value":"Welcome to AlaSQL!","id":"index.md"},
-	{"type":"folder", "value":"Data Types", "open": true, "id":"types/index.md","data":[
-      {"type":"file","value":"INTEGER", "id":"types/integer.sql"},
-      {"type":"file","value":"SERIAL", "id":"types/serial.sql"}
-    ]}
+
+
+	{"type":"folder", "value":"Examples", "open": true, "id":"ex/index.md","data":[
+
+		{"type":"folder", "value":"Data", "open": false, "id":"ex/data/index.md","data":[
+		    {"type":"file","value":"Number", "id":"ex/data/number.sql"},
+		    {"type":"file","value":"String", "id":"ex/data/string.sql"},
+		    {"type":"file","value":"Object", "id":"ex/data/object.sql"},
+		    {"type":"file","value":"Array", "id":"ex/data/array.sql"},
+		]},
+
+
+		{"type":"folder", "value":"SQL Statements", "open": false, "id":"ex/sql/index.md","data":[
+		    {"type":"file","value":"= (statement)", "id":"ex/sql/exprstat.sql"},
+
+			{"type":"folder", "value":"SELECT", "open": false, "id":"ex/sql/select/index.md","data":[
+			    {"type":"file","value":"ORDER BY", "id":"ex/sql/select/orderby.sql"},
+			    {"type":"file","value":"GROUP BY", "id":"ex/sql/select/groupby.sql"},
+			]},
+
+			{"type":"folder", "value":"SEARCH", "open": false, "id":"ex/sql/search/index.md","data":[
+			    {"type":"file","value":"Search at level", "id":"ex/sql/search/fruits1.sql"},
+			    {"type":"file","value":"All properties", "id":"ex/sql/search/fruits2.sql"},
+			]},
+		]},
+
+		{"type":"folder", "value":"AlaSQL API", "open": false, "id":"ex/api/index.md","data":[
+	      {"type":"folder","value":"JavaScript", "id":"ex/api/javascript.js","data":[
+		      {"type":"file","value":"Muli-line", "id":"ex/api/js-multi1.js"},
+		      {"type":"file","value":"ES-6 ` string", "id":"ex/api/js-multi2.js"},
+	      ]},
+	      {"type":"file","value":"SQL", "id":"ex/api/sql.sql"},
+	      {"type":"folder","value":"Sync/Async","data":[
+		      {"type":"file","value":"Sync", "id":"ex/api/js-sync.js"},
+		      {"type":"file","value":"Async", "id":"ex/api/js-async.js"},
+	      ]},
+	    ]},
+
+
+    ]},
+
+/*
+	{"type":"folder", "value":"Tutorial", "open": false, "id":"tutorial/index.md","data":[
+
+      {"type":"file","value":"Getting Started", "id":"tutorial/start.md"},
+      {"type":"file","value":"The SQL Language", "id":"tutorial/sql.md"},
+      {"type":"file","value":"Advanced Features", "id":"tutorial/advanced.sql"}
+
+    ]},
+
+	{"type":"folder", "value":"The SQL Language", "open": false, "id":"sql/index.md","data":[
+
+      {"type":"file","value":"SQL Syntax", "id":"sql/sql-syntax.md"},
+      {"type":"file","value":"Data Definition", "id":"sql/ddl.md"},
+      {"type":"file","value":"Data Manipulation", "id":"sql/dml.md"},
+      {"type":"file","value":"Queries", "id":"sql/queries.md"},
+      {"type":"folder","value":"Data Types", "id":"sql/datatypes/index.md","open":false, "data":[
+
+	      {"type":"file","value":"INT", "id":"sql/datatypes/int.sql"},
+	      {"type":"file","value":"SERIAL", "id":"sql/datatypes/serial.sql"},
+
+      ]},
+      {"type":"file","value":"Functions and Operations", "id":"sql/functions.md"},
+      {"type":"file","value":"Type Conversion", "id":"sql/typeconv.md"},
+      {"type":"file","value":"Indexes", "id":"sql/indexes.md"}
+    ]},
+
+	{"type":"folder", "value":"Administration", "open": false, "id":"admin/index.md","data":[
+
+      {"type":"file","value":"Managing Databases", "id":"admin/managing-databases.md"},
+    ]},
+*/
 ]

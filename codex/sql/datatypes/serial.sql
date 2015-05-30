@@ -3,6 +3,6 @@ CREATE TABLE girls (
 	name STRING
 );
 
-INSERT INTO girls(name) VALUES ("Masha"),("Dasha");
+INSERT INTO girls(name) VALUES ("Masha"),("Dasha"),("Tina"),("Dina");
 
 SELECT * FROM girls;

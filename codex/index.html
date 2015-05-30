@@ -63,6 +63,7 @@
       if(typeof id == 'undefined') id="index.md";
       $$('tree').select(id);
     });
+
     $$('tree').attachEvent("onAfterSelect", function (id) {
       var result = webix.ajax().sync().get(id);
       $$('editor').setValue(result.responseText);
@@ -70,60 +71,125 @@
     });
 
     function runQuery(id) {
-          var s = $$('editor').getValue();
-          alasql('DROP DATABASE IF EXISTS test;CREATE DATABASE test;USE test');
-          alasql.options.errorlog = true;
+      var s = $$('editor').getValue();
+      if(id=='runquery') id=$$('tree').getSelectedId();
+//        console.log(id);
 
-          if(id.toLowerCase().substr(-3) == '.js') {
-            s = '``'+s+'``';
-          } else if(id.toLowerCase().substr(-4) == '.sql') {
-            s = 'SELECT 1;'+s;
-          } else if(id.toLowerCase().substr(-4) == '.txt') {
-            s = 'SELECT 1;';
-          } else if(id.toLowerCase().substr(-3) == '.md') {
-            s = 'SELECT 1;';
-          };
-          alasql(s,{},function(data,err){
-            if(err) {
-              $$('rw').removeView('grid');
-              $$('rw').addView({ 
-                id:'grid', template:err, css:'error'
-              });  
-            } else {
-//          console.log(data);
-              var res = data[data.length-1];
-//              console.log(res);
 
-              if(res.length > 0) {
-                var allcol = {};
-                for(var i=0;i<Math.min(res.length,alasql.options.columnlookup||10);i++) {
-                  for(var key in res[i]) {
-                    allcol[key] = true;
-                  }
-                }
+      if(id.toLowerCase().substr(-4) == '.txt') {
+        //s = 'SELECT 1;';
+      } else if(id.toLowerCase().substr(-3) == '.md') {
+        //s = 'SELECT 1;';
 
-                columns = Object.keys(allcol).map(function(columnid){
-                  return {id:columnid};
-                });     
-              } else {
-                // Cannot recognize columns
-                columns = [];
-              }
-
-              alasql('DROP DATABASE test');
-
-              $$('rw').removeView('grid');
-              $$('rw').addView({ 
-                id:'grid', view:"datatable", columns:columns,data:res
-              });  
-            }
+      } else if(id.toLowerCase().substr(-3) == '.js') {
+        alasql('DROP DATABASE IF EXISTS test;CREATE DATABASE test;USE test');
+        alasql.options.errorlog = true;
+        delete alasql.options.modifier;
+        if(s.indexOf('done') > -1) {
+          var fn = new Function('alasql,done',s);
+          fn(alasql,function(data,err){
+//                console.log('ok',data);
+            formatResult([data],alasql.error);
+            clearDatabases();
           });
+        } else {
+          s = 'var res;'+s+';return [res];';
+          var fn = new Function('alasql',s);
+          formatResult(fn(alasql),alasql.error);
+          clearDatabases();
+        }
+      } else if(id.toLowerCase().substr(-4) == '.sql') {
+
+        s = 'SELECT 1;'+s;
+        alasql('DROP DATABASE IF EXISTS test;CREATE DATABASE test;USE test');
+        alasql.options.errorlog = true;
+        delete alasql.options.modifier;
+        alasql(s,{},function(data,err){
+//            console.log(1,data,err);
+          formatResult(data,err);
+          clearDatabases();
+        });
+      }
     };
 
 //    $$('editor').setValue(samples[1]);
     $$("editor").focus();
 
 });
+
+function clearDatabases() {
+  for(var dbid in alasql.databases) {
+      if(alasql.databases[dbid].databaseid != 'alasql') {
+        alasql('DROP DATABASE '+dbid);
+      }
+    };  
+}
+
+
+function formatResult(data,err){
+  $$('rw').removeView('grid');
+
+  if(err) {
+    $$('rw').addView({ 
+      id:'grid', template:err, css:'error'
+    });
+  } else {
+    var res = data[data.length-1];
+
+    if(typeof res == 'object') {
+      if(res instanceof alasql.Recordset) {
+        var columns = res.columns.map(function(columnid){
+          return {id:columnid};
+        });     
+        $$('rw').addView({ 
+          id:'grid', view:"datatable", columns:columns,data:res.data
+        });        
+
+      } else if(res instanceof Array) {
+        if(res.length > 0) {
+          if(typeof res[0] != 'object') {
+            columns = [{id:'_'}];
+            res = res.map(function(d){
+              if(typeof d == 'object') d = JSON.stringify(d);
+              return {'_':d};
+            });
+          } else {
+            var allcol = {};
+            for(var i=0;i<Math.min(res.length,alasql.options.columnlookup||10);i++) {
+              for(var key in res[i]) {
+                allcol[key] = true;
+              }
+            }
+
+            var columns = Object.keys(allcol).map(function(columnid){
+              return {id:columnid};
+            });     
+          }
+        } else {
+          // Cannot recognize columns
+          var columns = [];
+        };
+        $$('rw').addView({ 
+          id:'grid', view:"datatable", columns:columns,data:res
+        });        
+      } else {
+        $$('rw').addView({ 
+          id:'grid', template:JSON.stringify(res)
+        });        
+
+      }
+    } else {
+      $$('rw').addView({ 
+        id:'grid', template:res
+      });        
+
+    }
+
+  }
+};
+
+
+
 // webix.ui({
 //   rows:[
 //       { view:"template", 
