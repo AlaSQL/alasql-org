@@ -2,9 +2,12 @@
 	{"type":"file", "value":"Welcome to AlaSQL!","id":"index.md"},
 
 
-	{"type":"folder", "value":"Examples", "open": true, "id":"ex/index.md","data":[
+	{"type":"folder", "value":"Examples", "id":"ex/index.md","data":[
 
-		{"type":"folder", "value":"Data", "open": false, "id":"ex/data/index.md","data":[
+		{"type":"folder", "value":"Data Types", "id":"ex/datatypes.md"},
+
+
+		{"type":"folder", "value":"Data", "id":"ex/data/index.md","data":[
 		    {"type":"file","value":"Number", "id":"ex/data/number.sql"},
 		    {"type":"file","value":"String", "id":"ex/data/string.sql"},
 		    {"type":"file","value":"Object", "id":"ex/data/object.sql"},
@@ -12,21 +15,21 @@
 		]},
 
 
-		{"type":"folder", "value":"SQL Statements", "open": false, "id":"ex/sql/index.md","data":[
+		{"type":"folder", "value":"SQL Statements", "id":"ex/sql/index.md","data":[
 		    {"type":"file","value":"= (statement)", "id":"ex/sql/exprstat.sql"},
 
-			{"type":"folder", "value":"SELECT", "open": false, "id":"ex/sql/select/index.md","data":[
+			{"type":"folder", "value":"SELECT", "id":"ex/sql/select/index.md","data":[
 			    {"type":"file","value":"ORDER BY", "id":"ex/sql/select/orderby.sql"},
 			    {"type":"file","value":"GROUP BY", "id":"ex/sql/select/groupby.sql"},
 			]},
 
-			{"type":"folder", "value":"SEARCH", "open": false, "id":"ex/sql/search/index.md","data":[
+			{"type":"folder", "value":"SEARCH", "id":"ex/sql/search/index.md","data":[
 			    {"type":"file","value":"Search at level", "id":"ex/sql/search/fruits1.sql"},
 			    {"type":"file","value":"All properties", "id":"ex/sql/search/fruits2.sql"},
 			]},
 		]},
 
-		{"type":"folder", "value":"AlaSQL API", "open": false, "id":"ex/api/index.md","data":[
+		{"type":"folder", "value":"AlaSQL API", "id":"ex/api/index.md","data":[
 	      {"type":"folder","value":"JavaScript", "id":"ex/api/javascript.js","data":[
 		      {"type":"file","value":"Muli-line", "id":"ex/api/js-multi1.js"},
 		      {"type":"file","value":"ES-6 ` string", "id":"ex/api/js-multi2.js"},

@@ -32,6 +32,9 @@
           {rows:[
             { type:"header", template:"AlaSQL Code Examples" },
             { id:'tree',view:"tree", gravity:0.4, select:true },
+            { view:"resizer" },
+            { type:"header", template:"Database tables" },
+            { id:'dbtree',view:"tree", gravity:0.4, select:true },
           ], width:200},
           { view:"resizer" },
           { id: 'rw', rows:[
@@ -65,23 +68,85 @@
     });
 
     $$('tree').attachEvent("onAfterSelect", function (id) {
-      var result = webix.ajax().sync().get(id);
-      $$('editor').setValue(result.responseText);
-      runQuery(id);
+
+      var node = $$('tree').getSelectedItem();
+      if(node.content) {
+        $$('editor').setValue(node.content);
+        runQuery(id);          
+      } else {
+        var result = webix.ajax().sync().get(id);
+        var s = result.responseText;
+        var ss = s.split('\n# ');
+        node.content = ss[0];
+        ss.shift();
+        if(ss.length > 0) {
+          node.type = 'folder';
+          node.open = true;
+          ss.forEach(function(sss,idx){
+            var s4 = sss.split(' #\n');
+            var content = s4[1];
+            var item = {content:s4[1],id:id+'.'+idx,value:s4[0],type:'file'};
+            item.ext = 'sql';
+            if(!node.data) node.data = [];
+            node.data.push(item);
+            $$('tree').add(item,null,id);
+          });
+        };
+        $$('tree').updateItem(id,node);
+        $$('tree').refresh();
+        $$('editor').setValue(node.content);
+        runQuery(id);                      
+    }
+
     });
 
+    $$('dbtree').attachEvent("onAfterSelect", function (id) {
+      showTable(id);
+    });
+
+
+    function showDatabase() {
+      var dbtree = [];
+      for(var dbid in alasql.databases) {
+        if(dbid != 'dbo' && dbid != 'test') {
+          var db = {type:'folder',value:dbid, id:dbid, open:true, data:[]};
+          dbtree.push(db);
+
+          var dbt = {type:'folder',value:'Tables', id:dbid+'.tables', open:true, data:[]};
+          var dbv = {type:'folder',value:'Views', id:dbid+'.views', open:true, data:[]};
+          db.data.push(dbt);
+          db.data.push(dbv);
+
+          for(var tableid in alasql.databases[dbid].tables) {
+            if(alasql.databases[dbid].tables.view) {
+              dbv.data.push({type:'file',value:tableid, id:tableid, databaseid:dbid});
+            } else {
+              dbt.data.push({type:'file',value:tableid, id:tableid, databaseid:dbid});
+            }
+          };
+
+
+
+        }
+      };
+      $$('dbtree').clearAll();
+      $$('dbtree').parse(dbtree);
+    };
+
     function runQuery(id) {
+      clearDatabases();
+
       var s = $$('editor').getValue();
       if(id=='runquery') id=$$('tree').getSelectedId();
 //        console.log(id);
+      var node = $$('tree').getSelectedItem();
 
-
-      if(id.toLowerCase().substr(-4) == '.txt') {
+      if(node.ext == 'txt') {
         //s = 'SELECT 1;';
-      } else if(id.toLowerCase().substr(-3) == '.md') {
+      } else if(node.ext == 'md') {
         //s = 'SELECT 1;';
 
-      } else if(id.toLowerCase().substr(-3) == '.js') {
+      } else if(node.ext == '.js') {
         alasql('DROP DATABASE IF EXISTS test;CREATE DATABASE test;USE test');
         alasql.options.errorlog = true;
         delete alasql.options.modifier;
@@ -90,15 +155,13 @@
           fn(alasql,function(data,err){
 //                console.log('ok',data);
             formatResult([data],alasql.error);
-            clearDatabases();
           });
         } else {
           s = 'var res;'+s+';return [res];';
           var fn = new Function('alasql',s);
           formatResult(fn(alasql),alasql.error);
-          clearDatabases();
         }
-      } else if(id.toLowerCase().substr(-4) == '.sql') {
+      } else if(node.ext == 'sql' || typeof node.ext == 'undefined') {
 
         s = 'SELECT 1;'+s;
         alasql('DROP DATABASE IF EXISTS test;CREATE DATABASE test;USE test');
@@ -107,9 +170,9 @@
         alasql(s,{},function(data,err){
 //            console.log(1,data,err);
           formatResult(data,err);
-          clearDatabases();
         });
       }
+      showDatabase();
     };
 
 //    $$('editor').setValue(samples[1]);
