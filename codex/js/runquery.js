@@ -41,7 +41,7 @@ function runQuery2() {
   
   var code = $$('editor').getValue();
   if(code.indexOf('alasql')==-1) {
-    var sql = 'SELECT 1;'+code;
+    var sql = 'SELECT "Empty";'+code;
 //    console.log(sql);
     alasql(sql,{},function(data,err){
           showResults(data,err);
