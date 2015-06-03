@@ -1,11 +1,13 @@
 function showResults(data,err){
   $$('rw').removeView('result');
-
+//console.log(data);
   if(err) {
     $$('rw').addView({ 
       id:'result', template:err, css:'error'
     });
-  } else if(data.Empty) {
+    return;
+  }
+  if(data[0] && data[0]["'Empty'"] == 'Empty') {
     $$('rw').addView({ 
       id:'result', template:''
     });
