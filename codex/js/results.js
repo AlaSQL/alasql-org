@@ -5,7 +5,7 @@ function showResults(data,err){
     $$('rw').addView({ 
       id:'result', template:err, css:'error'
     });
-  } else if(data.length == 1 && data[0] == 'Empty') {
+  } else if(data.length == 1 && data[0].Empty) {
     $$('rw').addView({ 
       id:'result', template:''
     });
