@@ -57,12 +57,13 @@ function loadBlog() {
             cols: [
               {template:' ',width:25, borderless:true,},
               { rows: [
-                {template: '<h1>AlaSQL -  JavaScript SQL Database Library</h1><p>Versatile JavaScript SQL database for browser and Node.js. \
+                {css:'text',template: '<h1>AlaSQL -  JavaScript SQL Database Library</h1>\
+                <p>Versatile JavaScript SQL database for browser and Node.js. \
                   Handles both traditional relational tables and nested JSON data (noSQL). \
                   Export, store, and import data from localStorage, IndexedDB, or Excel.</p>',
                   autoheight:true, borderless:true,
                 },
-                {cols:[
+                {css: 'main', cols:[
                   {rows:[
                     {view:'toolbar',cols:[{view:'label', label:'Enter you SQL or JavaScript code here:'}]},
                     {id:"editor", view:"codemirror-editor", mode:'text/x-sql',height:200, },
@@ -76,13 +77,13 @@ function loadBlog() {
                 ]},
                 {view:"toolbar", paddingY:2,
                   cols:[
-                    { view:"button", label:"Run query (Ctrl-Enter)" , css:'query_btn', inputWidth:200,
+                    { view:"button", label:"Run query (Ctrl-Enter)" ,  css:'query_btn', inputWidth:200,
                       click:function(){
                         i = -1;
                         runQuery2();
                       }
                     },
-                    { view:"button", label:"Prev example", type:"prev", width:200, align:"right",
+                    { view:"button", label:"Prev example", type:"prev",  css:'query_btn',width:200, align:"right",
                       click: function(){
                         stop = true;
                         i--;
@@ -91,7 +92,7 @@ function loadBlog() {
                         runQuery2();
                       }
                     },
-                    { view:"button", label:"Next example" , type:"next",  width:200,
+                    { view:"button", label:"Next example" , type:"next",  css:'query_btn', width:200,
                       click: function(){
                         stop = true;
                         i++;
@@ -103,7 +104,7 @@ function loadBlog() {
                      },
 //                    { view:"label", label:"35 rows fetched", align:'right'},
                 ]},
-                {template:'html->info_1',autoheight:true, borderless:true}
+                {css:'text',template:'html->info_1',autoheight:true, borderless:true}
               ]},
             {template:' ',width:25,borderless:true,},
             {width:200, borderless:true,rows:[

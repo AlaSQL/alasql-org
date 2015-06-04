@@ -2,13 +2,23 @@
 	color:red;
 }
 
-.query_btn .webixtype_base{
+.query_btn button, .query_btn input, .query_btn .webix_el_arrow{
 	font-weight: bold;
 /*	color:black !important;
-	background-color: blue !important; 
 */
+	background-color: #69F !important; 
 }
 
 .borderless > .webix_el_box > button {
 	border: none;
+}
+
+.main {
+	-webkit-box-shadow: 10px 10px 26px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 10px 26px 0px rgba(0,0,0,0.75);
+	box-shadow: 10px 10px 26px 0px rgba(0,0,0,0.75);	
+}
+
+.text {
+	font-size: 120%;
 }

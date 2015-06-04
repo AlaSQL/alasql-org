@@ -10,16 +10,32 @@ var exs = [
 'SELECT * FROM city;'
 	],
 	[
-"res = alasql('SELECT 2*2 AS a');",
-"res = alasql('SELECT 3*3 AS a');",
+"var data = [{a:1,b:20}, {a:2,b:20}, {a:3,b:30}];",
+"res = alasql('SELECT a*b AS c FROM ? \\\n\
+	WHERE a>=2',[data]);",
 	],
 	[
-"DECLARE @a AS INT = 100;",
-"SELECT @a",
+"SET @abcd = {\n\
+	a:10,\n\
+	b:{\n\
+		a:1,\n\
+	  	d:{\n\
+	  		b:@[\n\
+	  			{a:1},\n\
+	  			{a:2}\n\
+	 ]}}};",
+"SEARCH / * a FROM @abcd;",
+	],
+	[
+"CREATE GRAPH #Pablo >loves> #Julia,\n\
+	 #Maxim > knows > #Julia,\n\
+     #Napoleon > loves > #Josephine,\n\
+     #Josephine > knows > #Pablo';",
+"SEARCH PATH(#Pablo) name FROM #Napoleon';"
 	],
 	[
 "/* Enter your code in SQL\n\
- or JavaScript below */"
+ or JavaScript below */\n"
 	]
 ];
 
