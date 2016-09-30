@@ -1,7 +1,7 @@
 // This file should be deleted but as it has been used as a CDN by others so we will start by adding a warning - later only the warning will be in this file - before deleting it in the end. 
-var msg = "Please use \n\nhttps://cdn.jsdelivr.net/alasql/0.3/alasql.min.js\n\n instead of \n\nalasql.org/console/alasql.js as this file will not work from the 30/9";
+var msg = "Please use \n\nhttps://cdn.jsdelivr.net/alasql/0.3/alasql.min.js\n\n instead of \n\nalasql.org/console/alasql.js as this file will not work from the 31/12 2016";
 alert(msg);
-console.err(msg) || console.log(msg);
+console.erroe(msg) || console.log(msg);
 
 
 /*! AlaSQL v0.1.9 (c) 2014-2015 Andrey Gershun | alasql.org/license */
